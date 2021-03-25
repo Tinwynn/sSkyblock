@@ -1,0 +1,13 @@
+name: sSkyblock
+version: 1.0.0
+author: Sayoden
+main: fr.sayoden.SSkyblock
+commands:
+  home:
+    aliases:
+      - homes
+  sethome:
+  delhome:
+  money:
+  niceblockadmin:
+    aliases: nba
