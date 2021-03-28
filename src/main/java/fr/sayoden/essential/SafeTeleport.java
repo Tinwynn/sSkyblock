@@ -35,7 +35,7 @@ public class SafeTeleport {
     public void teleport(){
         if(location == null) return;
         player.sendMessage(plugin.createMessage("teleport").replace("%timeToTeleport%", String.valueOf(timeToTeleport)));
-        task = plugin.getServer().getScheduler().runTaskLater(plugin, () -> teleportEntity(location),timeToTeleport * 20);
+        this.task = plugin.getServer().getScheduler().runTaskLater(plugin, () -> teleportEntity(location),timeToTeleport * 20);
     }
 
     /**
