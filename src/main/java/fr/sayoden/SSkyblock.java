@@ -6,11 +6,11 @@ import fr.sayoden.essential.CommandHome;
 import fr.sayoden.essential.CommandMoney;
 import fr.sayoden.player.PlayerCache;
 import fr.sayoden.util.Messages;
+import fr.sayoden.util.timer.TimerTeleportation;
+import fr.sayoden.util.timer.TimerTeleportationEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class SSkyblock extends JavaPlugin {
 
@@ -23,6 +23,8 @@ public class SSkyblock extends JavaPlugin {
     private static Admins admins;
 
     private static List<UUID> listNeedCode = new ArrayList<>();
+    private static Map<UUID, List<Boolean>> listPlayersInTeleportation = new HashMap<>();
+    private static List<UUID> cancelTp = new ArrayList<>();
 
 
 
@@ -37,6 +39,7 @@ public class SSkyblock extends JavaPlugin {
         admins = new Admins(this);
 
         getServer().getPluginManager().registerEvents(new CommandAdmin(this), this);
+        getServer().getPluginManager().registerEvents(new TimerTeleportationEvent(this), this);
 
         registerCommands();
         super.onEnable();
@@ -90,5 +93,21 @@ public class SSkyblock extends JavaPlugin {
 
     public List<UUID> getListNeedCode() {
         return listNeedCode;
+    }
+
+    public Map<UUID, List<Boolean>> getListPlayersInTeleportation() {
+        return listPlayersInTeleportation;
+    }
+
+    public void setListPlayersInTeleportation(Map<UUID, List<Boolean>> listPlayersInTeleportation) {
+        SSkyblock.listPlayersInTeleportation = listPlayersInTeleportation;
+    }
+
+    public static List<UUID> getCancelTp() {
+        return cancelTp;
+    }
+
+    public static void setCancelTp(List<UUID> cancelTp) {
+        SSkyblock.cancelTp = cancelTp;
     }
 }

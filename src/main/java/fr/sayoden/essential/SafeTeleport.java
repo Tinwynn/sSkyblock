@@ -14,7 +14,7 @@ public class SafeTeleport {
     private String homeName;
     private Location location;
     private Player player;
-    private int timeToTeleport;
+    private long timeToTeleport;
 
     private BukkitTask task;
 
@@ -26,22 +26,16 @@ public class SafeTeleport {
         this.timeToTeleport = getTimeLong();
     }
 
-    public int getTimeLong(){
-        if(!player.hasPermission("vip")) return 2;
-        if(player.isOp()) return 0;
-        return 4;
+    public long getTimeLong(){
+        if(player.hasPermission("vip")) return 2L;
+        if(player.isOp()) return 1L;
+        return 5L;
     }
 
     public void teleport(){
         if(location == null) return;
-        player.sendMessage(plugin.createMessage("teleport").replace("%timeToTeleport%", String.valueOf(timeToTeleport / 20)));
-        task = plugin.getServer().getScheduler().runTaskTimer(plugin, new Runnable() {
-
-            @Override
-            public void run() {
-                teleportEntity(location);
-            }
-        },0L, timeToTeleport * 20L);
+        player.sendMessage(plugin.createMessage("teleport").replace("%timeToTeleport%", String.valueOf(timeToTeleport)));
+        task = plugin.getServer().getScheduler().runTaskLater(plugin, () -> teleportEntity(location),timeToTeleport * 20);
     }
 
     /**
@@ -71,6 +65,10 @@ public class SafeTeleport {
             }
         });
 
+    }
+
+    public BukkitTask getTask() {
+        return task;
     }
 
 }

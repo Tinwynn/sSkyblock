@@ -4,6 +4,8 @@ import fr.sayoden.SSkyblock;
 import fr.sayoden.player.Home;
 import fr.sayoden.player.PlayerCache;
 import fr.sayoden.player.Players;
+import fr.sayoden.util.timer.Timer;
+import fr.sayoden.util.timer.TimerTeleportation;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -33,7 +35,6 @@ public class CommandHome implements CommandExecutor {
             Players playerObject = cache.getPlayerObject(player.getUniqueId());
 
             if(cmd.getName().equalsIgnoreCase("home") || cmd.getName().equalsIgnoreCase("homes")){
-                plugin.getLogger().info(playerObject.getHomeList().size() + "");
                 switch (args.length){
                     case 0:
                         if(playerObject.getHomeList().size() == 0){
@@ -56,7 +57,8 @@ public class CommandHome implements CommandExecutor {
                                 Home home = playerObject.findHomeWithName(args[0]);
                                 SafeTeleport safeTp = new SafeTeleport(plugin, home.getName(), home.getLocation(), player);
 
-                                safeTp.teleport();
+                                new TimerTeleportation(UUID.randomUUID().toString(), safeTp.getTimeLong(), safeTp.getTimeLong(), plugin, playerObject.getUuid() ,safeTp);
+                                //safeTp.teleport();
                             }
 
                         }
