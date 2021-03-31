@@ -4,8 +4,11 @@ import fr.sayoden.admin.Admins;
 import fr.sayoden.admin.CommandAdmin;
 import fr.sayoden.essential.CommandHome;
 import fr.sayoden.essential.CommandMoney;
+import fr.sayoden.listener.PlayerJoinQuit;
 import fr.sayoden.player.PlayerCache;
 import fr.sayoden.util.Messages;
+import fr.sayoden.util.Utils;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
@@ -22,19 +25,22 @@ public class SSkyblock extends JavaPlugin {
 
     private static List<UUID> listNeedCode = new ArrayList<>();
 
+    private static int nbInscrit;
+
 
 
     @Override
     public void onEnable() {
         instance = this;
         getLogger().info("sSkyblock vient de s'allumer correctement");
-
-        getServer().getPluginManager().registerEvents(new ListenerTest(), this);
         cache = new PlayerCache(this);
         messages = new Messages(this);
         admins = new Admins(this);
+        setInscrit();
 
+        getServer().getPluginManager().registerEvents(new PlayerJoinQuit(this), this);
         getServer().getPluginManager().registerEvents(new CommandAdmin(this), this);
+
 
         registerCommands();
         super.onEnable();
@@ -42,6 +48,7 @@ public class SSkyblock extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        saveInscrit();
         getLogger().info("sSkyblock vient de s'éteindre correctement");
         super.onDisable();
     }
@@ -66,12 +73,21 @@ public class SSkyblock extends JavaPlugin {
      */
     public String createMessage(String name){
         try{
+            if(name.equals("newPlayer") ||
+            name.equals("playerJoin") ||
+            name.equals("playerLeave")){
+                return messages.getMessages().get(name);
+            }
             return messages.getPrefix() + " " + messages.getMessages().get(name);
         }catch (Exception e){
             getLogger().warning("Impossible de récuperer le contenu du message: " + name);
 
         }
         return messages.getPrefix() + "§cERREUR MESSAGE";
+    }
+
+    public String createMessage(boolean isPermDeny){
+        return "§cVous n'avez pas la permission de faire cette commande.";
     }
 
     public static SSkyblock getPlugin(){
@@ -88,5 +104,28 @@ public class SSkyblock extends JavaPlugin {
 
     public List<UUID> getListNeedCode() {
         return listNeedCode;
+    }
+
+    public int getInscrit(){
+        return nbInscrit;
+    }
+
+    public void setInscrit(){
+        YamlConfiguration file = Utils.loadYamlFile("config.yml");
+
+        nbInscrit = file.getInt("nbInscrit");
+    }
+
+    public void addInscrit(){
+        nbInscrit++;
+    }
+
+    public void saveInscrit(){
+        YamlConfiguration file = Utils.loadYamlFile("config.yml");
+
+        if(file.contains("nbInscrit")){
+            file.set("nbInscrit", nbInscrit);
+            Utils.saveYamlFile(file, "config.yml");
+        }
     }
 }

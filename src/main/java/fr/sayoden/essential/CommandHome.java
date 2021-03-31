@@ -66,12 +66,23 @@ public class CommandHome implements CommandExecutor {
                 }
 
             }else if(cmd.getName().equalsIgnoreCase("sethome")){
+                List<Home> homes = playerObject.getHomeList();
                 switch (args.length){
                     case 0:
                         player.sendMessage(plugin.createMessage("sethomeNoArg"));
                         return false;
                     case 1:
                         int nbHomes = playerObject.getHomeList().size();
+                        for(Home home : homes){
+                            if(home.getName().equals(args[0])){
+                                homes.remove(home);
+                                home.setLocation(player.getLocation());
+                                homes.add(home);
+                                playerObject.setHomeList(homes);
+                                player.sendMessage(plugin.createMessage("replaceHome"));
+                                return true;
+                            }
+                        }
 
                         if(!player.isOp()){
                             if(player.hasPermission("vip")){
@@ -94,7 +105,6 @@ public class CommandHome implements CommandExecutor {
 
                 }
                 Home home = new Home(player.getLocation(),args[0]);
-                List<Home> homes = playerObject.getHomeList();
                 deleteHome(homes, args[0], playerObject, player.getUniqueId());
                 homes.add(home);
                 playerObject.setHomeList(homes);

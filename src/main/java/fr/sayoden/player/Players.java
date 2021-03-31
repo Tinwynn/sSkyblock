@@ -96,6 +96,16 @@ public class Players {
             }
         }
 
+        if(playerInfo.contains("friends")){
+            for(String name : playerInfo.getStringList("friends")){
+                try{
+                    this.friendList.add(new Friend(uuid, name));
+                }catch (Exception e){
+                    plugin.getLogger().warning("Erreur lors de l'importation des amis de: " + playerName);
+                }
+            }
+        }
+
         this.deaths = playerInfo.getInt("death", 0);
         this.kills = playerInfo.getInt("kills", 0);
         this.money = playerInfo.getDouble("money", 500);
@@ -114,6 +124,9 @@ public class Players {
         playerInfo.set("homeLocations", null);
         for(Home home : homeList){
             playerInfo.set("homeLocations." + home.getName(), Utils.getStringLocation(home.getLocation()));
+        }
+        for(Friend friend : friendList){
+            playerInfo.getStringList("friends").add(friend.getOtherPlayer());
         }
         playerInfo.set("deaths", deaths);
         playerInfo.set("kills", kills);

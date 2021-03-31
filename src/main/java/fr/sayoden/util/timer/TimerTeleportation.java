@@ -38,8 +38,10 @@ public class TimerTeleportation extends Timer{
         new BukkitRunnable() {
             @Override
             public void run() {
+                getPlugin().getLogger().info("Ttest");
                 if(!playerMove){
                     task.cancel();
+                    getPlugin().getLogger().info("Teleportation: " + getName() + " réussie");
                     Bukkit.getOfflinePlayer(player).getPlayer().sendMessage(getPlugin().createMessage("teleportSucess"));
                 }
                 isInTeleportation = false;
@@ -47,14 +49,17 @@ public class TimerTeleportation extends Timer{
         }.runTaskLater(super.getPlugin(), teleportation.getTimeLong() * 20);
     }
 
+    /**
+     * Vérifie si le joueur bouge pendant
+     * la téléportation
+     */
     public void checkIfCancel(){
         run();
         task = Bukkit.getScheduler().runTaskTimerAsynchronously(super.getPlugin(), () -> {
-            getPlugin().getLogger().info("IL SE LANCE KAPPA KAPPA");
             if(isInTeleportation && Bukkit.getPlayer(player).isOnline()){
                 Location loc = Bukkit.getPlayer(player).getLocation();
                 if(loc.getX() != lastPosX || loc.getZ() != lastPosZ){
-                    getPlugin().getLogger().info("IL SE LANCE ^^");
+                    getPlugin().getLogger().info("Teleportation: " + getName() + " échouée");
                     playerMove = true;
                     isInTeleportation = false;
                     teleportation.getTask().cancel();
