@@ -11,3 +11,4 @@ commands:
   money:
   niceblockadmin:
     aliases: nba
+  fly:

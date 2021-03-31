@@ -2,6 +2,7 @@ package fr.sayoden;
 
 import fr.sayoden.admin.Admins;
 import fr.sayoden.admin.CommandAdmin;
+import fr.sayoden.essential.CommandFly;
 import fr.sayoden.essential.CommandHome;
 import fr.sayoden.essential.CommandMoney;
 import fr.sayoden.listener.PlayerJoinQuit;
@@ -62,6 +63,7 @@ public class SSkyblock extends JavaPlugin {
         getCommand("delhome").setExecutor(new CommandHome(this));
         getCommand("money").setExecutor(new CommandMoney(this));
         getCommand("niceblockadmin").setExecutor(new CommandAdmin(this));
+        getCommand("fly").setExecutor(new CommandFly(this));
 
     }
 
