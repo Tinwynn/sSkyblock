@@ -2,9 +2,7 @@ package fr.sayoden;
 
 import fr.sayoden.admin.Admins;
 import fr.sayoden.admin.CommandAdmin;
-import fr.sayoden.essential.CommandFly;
-import fr.sayoden.essential.CommandHome;
-import fr.sayoden.essential.CommandMoney;
+import fr.sayoden.essential.*;
 import fr.sayoden.listener.PlayerJoinQuit;
 import fr.sayoden.player.PlayerCache;
 import fr.sayoden.util.Messages;

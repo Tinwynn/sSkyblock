@@ -12,3 +12,7 @@ commands:
   niceblockadmin:
     aliases: nba
   fly:
+  tpa:
+  msg:
+    aliases:
+      - m
