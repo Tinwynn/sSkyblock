@@ -19,6 +19,7 @@ public class CommandFly implements CommandExecutor {
             Player player = (Player) sender;
             if(player.isOp()){
                 if(player.getAllowFlight()){
+
                     player.setAllowFlight(false);
                     player.sendMessage(plugin.createMessage("flyOff"));
                 }else{
@@ -31,5 +32,4 @@ public class CommandFly implements CommandExecutor {
         }
         return false;
     }
-
 }

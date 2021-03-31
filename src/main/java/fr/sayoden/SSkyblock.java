@@ -62,7 +62,8 @@ public class SSkyblock extends JavaPlugin {
         getCommand("money").setExecutor(new CommandMoney(this));
         getCommand("niceblockadmin").setExecutor(new CommandAdmin(this));
         getCommand("fly").setExecutor(new CommandFly(this));
-
+        getCommand("tpa").setExecutor(new CommandTpa(this));
+        getCommand("msg").setExecutor(new CommandMP(this));
     }
 
     /**

@@ -99,6 +99,7 @@ public class CommandHome implements CommandExecutor {
                                 if(nbHomes + 1 > 2){
                                     player.sendMessage(plugin.createMessage("noHaveManyHomes"));
                                     return false;
+
                                 }
                             }
                         }
