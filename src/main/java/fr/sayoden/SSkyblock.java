@@ -75,8 +75,9 @@ public class SSkyblock extends JavaPlugin {
     public String createMessage(String name){
         try{
             if(name.equals("newPlayer") ||
-            name.equals("playerJoin") ||
-            name.equals("playerLeave")){
+                    name.equals("playerJoin") ||
+                    name.equals("playerLeave")
+            ){
                 return messages.getMessages().get(name);
             }
             return messages.getPrefix() + " " + messages.getMessages().get(name);

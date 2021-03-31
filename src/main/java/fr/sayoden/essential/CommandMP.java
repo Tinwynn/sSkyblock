@@ -19,18 +19,22 @@ public class CommandMP implements CommandExecutor {
         if(sender instanceof Player){
             Player player = (Player) sender;
             if(args.length > 1){
-                if(Bukkit.getPlayer(args[0]).isOnline()){
-                    Player receiver = Bukkit.getPlayer(args[0]);
+                try {
+                    if(plugin.getCache().getUUIDWithName(args[0])){
+                        Player receiver = Bukkit.getPlayer(args[0]);
 
-                    String messageBase = "";
+                        String sm = "";
+                        for (int i = 1; i < args.length; i++){
+                            String arg = (args[i] + " ");
+                            sm = (sm + arg);
+                        }
 
-                    for(int i = 1; i < args.length; i++){
-                        messageBase.concat(args[i] + " ");
+                        player.sendMessage(plugin.createMessage("msgTo").replace("%player%",player.getName()).replace("%message%",sm).replace("%receiver%", receiver.getName()));
+                        receiver.sendMessage(plugin.createMessage("msgFrom").replace("%receiver%",receiver.getName()).replace("%message%",sm).replace("%player%", player.getName()));
                     }
-                    player.sendMessage(plugin.createMessage("msgTo").replace("%receiver%",player.getName()).replace("%message%",messageBase));
-                    receiver.sendMessage(plugin.createMessage("msgFrom").replace("%sender%",player.getName()).replace("%message%",messageBase));
-                }else{
+                } catch (Exception e) {
                     player.sendMessage(plugin.createMessage("playerNotConnected"));
+                    e.printStackTrace();
                 }
 
             }else{

@@ -88,6 +88,22 @@ public class PlayerCache {
     }
 
     /**
+     * Permet de get un playerCache avec le
+     * nom d'une personne
+     *
+     * @return
+     */
+    public boolean getUUIDWithName(String name) throws Exception{
+        for(UUID uuid : playersCache.keySet()){
+            if(playersCache.get(uuid).getPlayerName().equals(name)){
+                return true;
+            }
+        }
+
+        throw new Exception("Nom de la personne non trouvé.");
+    }
+
+    /**
      * Suppression de tous les joueurs
      */
     public void removeAllPlayers(){
